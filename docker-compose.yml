@@ -9,3 +9,11 @@ services:
     volumes:
       - ./excalidraw-data:/app/.excalidraw
     restart: unless-stopped
+
+  mermaid:
+    image: ghcr.io/mermaid-js/mermaid-live-editor:latest
+    container_name: mermaid
+    ports:
+      - "4040:8080"
+    restart: unless-stopped
+    platform: linux/amd64
