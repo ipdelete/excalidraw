@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  excalidraw:
+    image: excalidraw/excalidraw:latest
+    container_name: excalidraw
+    ports:
+      - "3030:80"
+    volumes:
+      - ./excalidraw-data:/app/.excalidraw
+    restart: unless-stopped
