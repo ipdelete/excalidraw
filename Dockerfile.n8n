@@ -1,0 +1,11 @@
+FROM n8nio/n8n:latest
+
+USER root
+
+# Install Azure CLI with build dependencies
+RUN apk add --no-cache bash py3-pip curl gcc python3-dev musl-dev linux-headers && \
+    pip3 install --upgrade pip --break-system-packages && \
+    pip3 install azure-cli --break-system-packages && \
+    apk del gcc python3-dev musl-dev linux-headers
+
+USER node

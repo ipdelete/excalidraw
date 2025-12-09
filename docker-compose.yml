@@ -17,3 +17,50 @@ services:
       - "4040:8080"
     restart: unless-stopped
     platform: linux/amd64
+
+  hedgedoc:
+    image: lscr.io/linuxserver/hedgedoc:latest
+    container_name: hedgedoc
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      - CMD_DB_URL=postgres://hedgedoc:hedgedoc@hedgedoc-db:5432/hedgedoc
+      - CMD_DOMAIN=localhost
+      - CMD_URL_ADDPORT=true
+      - CMD_PROTOCOL_USESSL=false
+    volumes:
+      - ./hedgedoc-data:/config
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    depends_on:
+      - hedgedoc-db
+
+  hedgedoc-db:
+    image: postgres:15-alpine
+    container_name: hedgedoc-db
+    environment:
+      - POSTGRES_USER=hedgedoc
+      - POSTGRES_PASSWORD=hedgedoc
+      - POSTGRES_DB=hedgedoc
+    volumes:
+      - ./hedgedoc-db:/var/lib/postgresql/data
+    restart: unless-stopped
+
+# docker exec -it n8n az login --use-device-code
+  n8n:
+    build: 
+      context: .  
+      dockerfile: Dockerfile. n8n
+    container_name: n8n
+    ports: 
+      - "6060:5678"
+    environment: 
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=http
+      - N8N_HOST=localhost
+      - WEBHOOK_URL=http://localhost:6060/
+    volumes:
+      - ./n8n-data:/home/node/. n8n
+    restart: unless-stopped

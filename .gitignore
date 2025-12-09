@@ -1,2 +1,7 @@
 excalidraw-data/*
 !excalidraw-data/.gitkeep
+hedgedoc-data/*
+!hedgedoc-data/.gitkeep
+hedgedoc-db
+n8n-data/*
+!n8n-data/.gitkeep
